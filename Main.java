@@ -1,40 +1,47 @@
+import java.time.LocalDate;
+import java.util.Arrays;
+
 public class Main {
-
-    /*
-     Класс Product представляет товар с его количеством, ценой и скидкой.
-     Он предоставляет методы для расчета итоговой стоимости товара с учетом скидки.
-     */
-    static class Product {
-        private int quantity; // Количество товаров
-        private double price; // Цена товара
-        private double discount; // Скидка на товар в процентах
-
-        public Product(int quantity, double price, double discount) {
-            this.quantity = quantity; // Инициализация количества товаров
-            this.price = price;       // Инициализация цены товара
-            this.discount = discount; // Инициализация скидки на товар
-        }
-
-        // Метод для расчета общей суммы покупки
-        public double calculateTotal() {
-            double totalWithoutDiscount = quantity * price; // Общая сумма без скидки
-            double totalDiscount = totalWithoutDiscount * (discount / 100); // Сумма скидки
-            double totalWithDiscount = totalWithoutDiscount - totalDiscount; // Общая сумма со скидкой
-
-            return Math.round(totalWithDiscount * 100.0) / 100.0; // Округление до 2 знаков после запятой
-        }
-    }
-
-    // Метод main
     public static void main(String[] args) {
 
-        Product product1 = new Product(10, 100.0, 0.75);   // Скидка 0.75%
-        Product product2 = new Product(25, 200.0, 42.575);   // Скидка 42.575%
-        Product product3 = new Product(33, 500.0, 59.1);     // Скидка 59.1%
+        CreateAnimalServiceImpl a = new CreateAnimalServiceImpl();
 
-        // Вызываем метод calculateTotal для каждого продукта и выводим результаты
-        System.out.println("Итоговая сумма для товара 1: " + product1.calculateTotal());
-        System.out.println("Итоговая сумма для товара 2: " + product2.calculateTotal());
-        System.out.println("Итоговая сумма для товара 3: " + product3.calculateTotal());
+        var list1 = a.createAnimal(10); // for
+        var list2 = a.useSuperMethod(10); // while
+        var list3 = a.useDoWhile(10); // do While
+
+        SearchServiceImpl searchService = new SearchServiceImpl();
+
+        System.out.println(Arrays.toString(searchService.findOlderAnimal(list1.toArray(new AbstractAnimal[0]), 12)));
+        searchService.findDuplicate(list2.toArray(new AbstractAnimal[0]));
+        System.out.println(Arrays.toString(searchService.findLeapYearNames(list3.toArray(new AbstractAnimal[0]))));
+
+        // Тест с корректными данными
+        test();
+    }
+
+    private static void test() {
+        System.out.println("\n___---___ TEST ___---___");
+        SearchServiceImpl searchService = new SearchServiceImpl();
+        var p0 = new Predator();
+        var p1 = new Predator();
+        var p2 = new Predator();
+        var p3 = new Predator();
+
+        p0.setBirthDate(LocalDate.now().minusYears(31));
+        p1.setBirthDate(LocalDate.now().minusYears(21));
+        p2.setBirthDate(LocalDate.now().minusYears(4));
+        p3.setBirthDate(LocalDate.now().minusYears(8));
+
+        p0.setName("P0 Name");
+        p1.setName("P1 Name");
+        p2.setName("P2 Name");
+        p3.setName("P3 Name");
+
+        System.out.println(Arrays.toString(searchService.findOlderAnimal(new AbstractAnimal[]{p0, p1}, 19)));
+        searchService.findDuplicate(new AbstractAnimal[]{p0, p0, p1, p0, p1});
+        searchService.findDuplicate(new AbstractAnimal[]{p0, p0, p1, p0});
+        System.out.println(Arrays.toString(searchService.findLeapYearNames(new AbstractAnimal[]{p0, p0, p1, p2, p3})));
+        System.out.println("___---___ TEST ___---___");
     }
 }
